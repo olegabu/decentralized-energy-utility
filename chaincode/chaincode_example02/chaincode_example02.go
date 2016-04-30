@@ -36,6 +36,11 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 	var Aval, Bval int // Asset holdings
 	var err error
 
+	if len(args) == 0 {
+		return nil, errors.New("Incorrect number of arguments. At least one Meter's name is required.")
+	}
+
+
 	if len(args) != 4 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 4")
 	}
