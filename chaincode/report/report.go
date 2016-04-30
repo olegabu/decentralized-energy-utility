@@ -50,11 +50,18 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 	val, _ = strconv.Atoi(string(args[1]))
 
 	err = stub.PutState(name, []byte(strconv.Itoa(val)))
+
 	if err != nil {
 		return nil, err
 	}
 
-	return nil, nil
+	if(val > 3){
+		return []byte(strconv.Itoa(1)), nil
+	}else{
+		return []byte(strconv.Itoa(0)), nil
+
+	}
+
 }
 
 
