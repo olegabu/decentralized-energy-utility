@@ -32,8 +32,58 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 	return nil, nil
 }
 
-// Transaction makes payment of X units from A to B
+// Deletes an entity from state
+func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
+	var err error
+	var val, total int
+
+	keysIter, err := stub.RangeQueryState("", "")
+	if err != nil {
+		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
+	}
+	defer keysIter.Close()
+
+	var keys []string
+	var values []int
+	total = 0;
+
+	for keysIter.HasNext() {
+		key, _, err := keysIter.Next()
+		if err != nil {
+			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
+		}
+		val, _, err = strconv.Atoi(string(args[1]))
+		if err != nil {
+			return nil, fmt.Errorf("cannot read state for key %s: %s", key, err)
+		}
+
+		keys = append(keys, key)
+		values = append(values, val)
+		if(val > 0){
+			total = total + val;
+		}
+
+	}
+	for index,name := range keys {
+		if(values[index] < 0){
+			stub.QueryChaincode()
+		}
+		err = stub.PutState(name, []byte(strconv.Itoa(0)));
+		if err != nil {
+			return nil, errors.New("Meter cannot be created")
+		}
+	}
+
+
+	return nil, nil
+}
+
 func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
+
+	if function == "settle" {
+		return t.settle(stub, args)
+	}
+
 	if function != "report" {
 		return nil, errors.New("Unimplemented '" + function + "' invoked")
 	}
@@ -55,19 +105,13 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 		return nil, err
 	}
 
-	if(val > 3){
-		return []byte(strconv.Itoa(1)), nil
-	}else{
-		return []byte(strconv.Itoa(0)), nil
-
-	}
-
+	return nil, nil
 }
 
 
 // Query callback representing the query of a chaincode
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
-	if function != "query" {
+	if function != "querybalance" {
 		return nil, errors.New("Invalid query function name. Expecting \"query\"")
 	}
 	var name string // Entities
