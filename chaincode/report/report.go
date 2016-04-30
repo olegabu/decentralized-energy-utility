@@ -68,6 +68,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 			amount = values[index]*-1*exchange_rate;
 			stub.QueryChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", "change", []string{string(amount)})
 		}
+		name = name + "";
 		//err = stub.PutState(name, []byte(strconv.Itoa(0)));
 		//if err != nil {
 		//	return nil, errors.New("Meter cannot be updated")
