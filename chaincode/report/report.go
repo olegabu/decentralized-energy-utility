@@ -34,7 +34,7 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 
 // Deletes an entity from state
 func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
-	//var err error
+	var err error
 	var key string
 	var val, total int
 
@@ -62,17 +62,18 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 	for index,name := range keys {
 		if(values[index] < 0){
 			//amount = values[index]*-1*exchange_rate;
-			stub.QueryChaincode("github.com/olegabu/decentralized-energy-utility/chaincode/settle", "change", []string{"10"})
+			f := "change"
+			queryArgs := []string{"11"}
+			stub.QueryChaincode("github.com/olegabu/decentralized-energy-utility/chaincode/settle", f, queryArgs)
 		}
-		name = name + "";
-		//err = stub.PutState(name, []byte(strconv.Itoa(0)));
-		//if err != nil {
-		//	return nil, errors.New("Meter cannot be updated")
-		//}
+		err = stub.PutState(name, []byte(strconv.Itoa(0)));
+		if err != nil {
+			return nil, errors.New("Meter cannot be updated")
+		}
 	}
 
 
-	return []byte(" total: " + strconv.Itoa(total)), nil
+	return nil, nil
 }
 
 func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
