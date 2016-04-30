@@ -51,8 +51,8 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 	total = 0;
 
 	for i := 1; i < 10; i++ {
-		key = string(i)
-		value, err := stub.GetState(strconv.Itoa(key))
+		key = strconv.Itoa(i)
+		value, err := stub.GetState(key)
 		if err != nil {
 			continue
 		}
