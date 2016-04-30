@@ -115,37 +115,37 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 // Query callback representing the query of a chaincode
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 
-	//if function == "settle" {
+	if function == "settle" {
 		return t.settle(stub, args)
-	//}
-	//
-	//if function != "querybalance" {
-	//	return nil, errors.New("Invalid query function name. Expecting \"querybalance\"")
-	//}
-	//var name string // Entities
-	//var err error
-	//
-	//if len(args) != 1 {
-	//	return nil, errors.New("Incorrect number of arguments. Expecting name of the Meter to query")
-	//}
-	//
-	//name = args[0]
-	//
-	//// Get the state from the ledger
-	//value, err := stub.GetState(name)
-	//if err != nil {
-	//	jsonResp := "{\"Error\":\"Failed to get state for " + name + "\"}"
-	//	return nil, errors.New(jsonResp)
-	//}
-	//
-	//if value == nil {
-	//	jsonResp := "{\"Error\":\"Nil amount for Meter" + name + "\"}"
-	//	return nil, errors.New(jsonResp)
-	//}
-	//
-	//jsonResp := "{\"Name\":\"" + name + "\",\"Amount\":\"" + string(value) + "\"}"
-	//fmt.Printf("Query Response:%s\n", jsonResp)
-	//return value, nil
+	}
+
+	if function != "querybalance" {
+		return nil, errors.New("Invalid query function name. Expecting \"querybalance\"")
+	}
+	var name string // Entities
+	var err error
+
+	if len(args) != 1 {
+		return nil, errors.New("Incorrect number of arguments. Expecting name of the Meter to query")
+	}
+
+	name = args[0]
+
+	// Get the state from the ledger
+	value, err := stub.GetState(name)
+	if err != nil {
+		jsonResp := "{\"Error\":\"Failed to get state for " + name + "\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	if value == nil {
+		jsonResp := "{\"Error\":\"Nil amount for Meter" + name + "\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	jsonResp := "{\"Name\":\"" + name + "\",\"Amount\":\"" + string(value) + "\"}"
+	fmt.Printf("Query Response:%s\n", jsonResp)
+	return value, nil
 }
 
 func main() {
