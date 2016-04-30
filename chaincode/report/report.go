@@ -40,7 +40,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 
 	//exchange_rate = 13;
 
-	keysIter, err := stub.RangeQueryState("", "")
+	keysIter, err := stub.RangeQueryState("1", "10")
 	if err != nil {
 		return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 	}
