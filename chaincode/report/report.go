@@ -35,7 +35,9 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 // Deletes an entity from state
 func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 	var err error
-	var val, total int
+	var val, total, exchange_rate, amount int
+
+	exchange_rate = 13;
 
 	keysIter, err := stub.RangeQueryState("", "")
 	if err != nil {
@@ -52,10 +54,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 		if err != nil {
 			return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
 		}
-		val, _, err = strconv.Atoi(string(args[1]))
-		if err != nil {
-			return nil, fmt.Errorf("cannot read state for key %s: %s", key, err)
-		}
+		val, _ = strconv.Atoi(string(args[1]))
 
 		keys = append(keys, key)
 		values = append(values, val)
@@ -66,11 +65,12 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 	}
 	for index,name := range keys {
 		if(values[index] < 0){
-			stub.QueryChaincode()
+			amount = values[index]*-1*exchange_rate;
+			stub.QueryChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", "change", []string{string(amount)})
 		}
 		err = stub.PutState(name, []byte(strconv.Itoa(0)));
 		if err != nil {
-			return nil, errors.New("Meter cannot be created")
+			return nil, errors.New("Meter cannot be updated")
 		}
 	}
 
