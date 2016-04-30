@@ -8,11 +8,11 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
 
-// ReportChaincode implementation
-type ReportChaincode struct {
+// SimpleChaincode implementation
+type SimpleChaincode struct {
 }
 
-func (t *ReportChaincode) Init(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 	//var Name string    // Entities
 	var err error
 
@@ -34,7 +34,7 @@ func (t *ReportChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 }
 
 // Transaction makes payment of X units from A to B
-func (t *ReportChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 	if function != "report" {
 		return nil, errors.New("Unimplemented '" + function + "' invoked")
 	}
@@ -60,7 +60,7 @@ func (t *ReportChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 
 
 // Query callback representing the query of a chaincode
-func (t *ReportChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 	if function != "query" {
 		return nil, errors.New("Invalid query function name. Expecting \"query\"")
 	}
@@ -91,7 +91,7 @@ func (t *ReportChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 }
 
 func main() {
-	err := shim.Start(new(ReportChaincode))
+	err := shim.Start(new(SimpleChaincode))
 	if err != nil {
 		fmt.Printf("Error starting Simple chaincode: %s", err)
 	}
