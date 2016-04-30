@@ -64,7 +64,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 			//amount = values[index]*-1*exchange_rate;
 			f := "change"
 			queryArgs := []string{"1","11"}
-			stub.QueryChaincode("https://github.com/olegabu/decentralized-energy-utility/chaincode/settle", f, queryArgs)
+			stub.QueryChaincode("github.com/olegabu/decentralized-energy-utility/chaincode/settle", f, queryArgs)
 		}
 		err = stub.PutState(name, []byte(strconv.Itoa(0)));
 		if err != nil {
