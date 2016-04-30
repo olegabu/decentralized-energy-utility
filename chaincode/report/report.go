@@ -56,6 +56,9 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 		if err != nil {
 			continue
 		}
+		if value == nil {
+			continue
+		}
 		val, _ = strconv.Atoi(string(value))
 		total = total + 1;
 		keys = append(keys, key)
