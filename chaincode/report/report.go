@@ -23,7 +23,7 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 		if len(name) == 0{
 			continue
 		}
-		err = stub.PutState(name, 0);
+		err = stub.PutState(name, []byte(strconv.Itoa(0)));
 		if err != nil {
 			return nil, errors.New("Meter cannot be created")
 		}
