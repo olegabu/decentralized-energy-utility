@@ -52,7 +52,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 
 	for i := 1; i < 10; i++ {
 		key = string(i)
-		value, err := stub.GetState(key)
+		value, err := stub.GetState(string(key))
 		if err != nil {
 			continue
 		}
