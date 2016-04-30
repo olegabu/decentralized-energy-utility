@@ -1,0 +1,19 @@
+{
+  "jsonrpc": "2.0",
+  "method": "invoke",
+  "params": {
+    "type": 1,
+    "chaincodeID": {
+      "name": "CONTRACT"
+    },
+    "ctorMsg": {
+      "function": "report",
+      "args": [
+        "#producer1",
+		"3"
+      ]
+    },
+    "secureContext": "USER_CONTEXT"
+  },
+  "id": 0
+}

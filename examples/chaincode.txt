@@ -1,0 +1,21 @@
+{
+    "jsonrpc": "2.0",
+    "method": "deploy",
+    "params": {
+        "type": 1,
+        "chaincodeID": {
+            "path": "https://github.com/olegabu/decentralized-energy-utility/chaincode/report"
+        },
+        "ctorMsg": {
+            "function": "init",
+            "args": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ]
+        },
+        "secureContext": "USER_CONTEXT"
+    },
+    "id": 1
+}
