@@ -32,36 +32,21 @@ type SimpleChaincode struct {
 }
 
 func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
-	var A, B string    // Entities
-	var Aval, Bval int // Asset holdings
+	//var Name string    // Entities
 	var err error
 
-	if len(args) != 4 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 4")
+	if len(args) == 0 {
+		return nil, errors.New("Incorrect number of arguments. At least one Meter's name is required.")
 	}
 
-	// Initialize the chaincode
-	A = args[0]
-	Aval, err = strconv.Atoi(args[1])
-	if err != nil {
-		return nil, errors.New("Expecting integer value for asset holding")
-	}
-	B = args[2]
-	Bval, err = strconv.Atoi(args[3])
-	if err != nil {
-		return nil, errors.New("Expecting integer value for asset holding")
-	}
-	fmt.Printf("Aval = %d, Bval = %d\n", Aval, Bval)
-
-	// Write the state to the ledger
-	err = stub.PutState(A, []byte(strconv.Itoa(Aval)))
-	if err != nil {
-		return nil, err
-	}
-
-	err = stub.PutState(B, []byte(strconv.Itoa(Bval)))
-	if err != nil {
-		return nil, err
+	for _,name := range args {
+		if len(name) == 0{
+			continue
+		}
+		err = stub.PutState(name, 0);
+		if err != nil {
+			return nil, errors.New("Meter cannot be created")
+		}
 	}
 
 	return nil, nil
