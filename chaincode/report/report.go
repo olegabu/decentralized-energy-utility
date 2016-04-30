@@ -68,10 +68,10 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 			amount = values[index]*-1*exchange_rate;
 			stub.QueryChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", "change", []string{string(amount)})
 		}
-		err = stub.PutState(name, []byte(strconv.Itoa(0)));
-		if err != nil {
-			return nil, errors.New("Meter cannot be updated")
-		}
+		//err = stub.PutState(name, []byte(strconv.Itoa(0)));
+		//if err != nil {
+		//	return nil, errors.New("Meter cannot be updated")
+		//}
 	}
 
 
@@ -111,8 +111,13 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 
 // Query callback representing the query of a chaincode
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
+
+	if function == "settle" {
+		return t.settle(stub, args)
+	}
+
 	if function != "querybalance" {
-		return nil, errors.New("Invalid query function name. Expecting \"query\"")
+		return nil, errors.New("Invalid query function name. Expecting \"querybalance\"")
 	}
 	var name string // Entities
 	var err error
