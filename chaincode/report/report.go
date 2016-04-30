@@ -36,9 +36,9 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 	//var err error
 	var key string
-	var val, total, exchange_rate, amount int
+	var val, total int
 
-	exchange_rate = 13;
+	//exchange_rate = 13;
 
 	//keysIter, err := stub.RangeQueryState("1", "10")
 	//if err != nil {
@@ -57,18 +57,15 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 			continue
 		}
 		val, _ = strconv.Atoi(string(value))
-
+		total = total + 1;
 		keys = append(keys, key)
 		values = append(values, val)
-		if(val > 0){
-			total = total + val;
-		}
 
 	}
 	for index,name := range keys {
 		if(values[index] < 0){
-			amount = values[index]*-1*exchange_rate;
-			stub.QueryChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", "change", []string{string(amount)})
+			//amount = values[index]*-1*exchange_rate;
+			stub.QueryChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", "change", []string{"10"})
 		}
 		name = name + "";
 		//err = stub.PutState(name, []byte(strconv.Itoa(0)));
@@ -78,7 +75,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 	}
 
 
-	return []byte(strconv.Itoa(total)), nil
+	return []byte(" total: " + strconv.Itoa(total)), nil
 }
 
 func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
