@@ -40,17 +40,11 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 
 	//exchange_rate = 13;
 
-	//keysIter, err := stub.RangeQueryState("1", "10")
-	//if err != nil {
-	//	return nil, fmt.Errorf("keys operation failed. Error accessing state: %s", err)
-	//}
-	//defer keysIter.Close()
-
 	var keys []string
 	var values []int
 	total = 0;
 
-	for i := 1; i < 10; i++ {
+	for i := 1; i < 2; i++ {
 		key = strconv.Itoa(i)
 		value, err := stub.GetState(key)
 		if err != nil {
