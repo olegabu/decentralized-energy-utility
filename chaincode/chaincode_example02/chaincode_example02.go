@@ -39,7 +39,15 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 	if len(args) == 0 {
 		return nil, errors.New("Incorrect number of arguments. At least one Meter's name is required.")
 	}
-
+	for _,name := range args {
+		if len(name) == 0{
+			continue
+		}
+		err = stub.PutState(name, 0);
+		if err != nil {
+			return nil, errors.New("Meter cannot be created")
+		}
+	}
 
 	if len(args) != 4 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 4")
