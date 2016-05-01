@@ -80,7 +80,8 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 
 		previous_val, _ = strconv.Atoi(string(value));
 
-		err = stub.PutState(name, []byte(strconv.Itoa(amount + previous_val)))
+		//err = stub.PutState(name, []byte(strconv.Itoa(amount + previous_val)))
+		err = stub.PutState(name, []byte(strconv.Itoa(40)))
 
 		if err != nil {
 			return nil, err
