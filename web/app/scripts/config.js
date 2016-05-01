@@ -5,8 +5,8 @@ angular.module('config', [])
   secureContext: 'user_type1_f0d8a85799',
   
   chaincodeID: {
-      report: 'f6a7e50c11751c9220352fc804339d45512ae2bd8001c6e8729142a3b442040afea1dbdf3eee47b45ac78e601e1bb5d42ef9c109cd8840f90dbea765ef01f80e',
-      settle: '2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6'   
+      report: 'd6d8d6efa0f641b4ff741bb51b32e9af4406c5beabfe5ad93037ebb40a30be36e317a529b134ca43eae69362418dd8628b805430bea1edba1e9a97b2739aa29f',
+      settle: 'd6d8d6efa0f641b4ff741bb51b32e9af4406c5beabfe5ad93037ebb40a30be36e317a529b134ca43eae69362418dd8628b805430bea1edba1e9a97b2739aa29f'   
   },
 
   meters: [{

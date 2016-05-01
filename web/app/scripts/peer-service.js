@@ -25,7 +25,8 @@ function PeerService($log, $q, $http, cfg) {
     payload.method = 'invoke';
     payload.params.chaincodeID.name = cfg.chaincodeID.report;
     payload.params.ctorMsg['function'] = 'report';
-    payload.params.ctorMsg.args = ['' + m.id, '' + m.load];
+    payload.params.ctorMsg.args = ['' + m.id, 
+                                   '' + (m.consumer ? (m.connected ? m.load : 0) : -1 * m.power)];
     
     $log.debug('payload', payload);
     
@@ -38,7 +39,7 @@ function PeerService($log, $q, $http, cfg) {
     $log.debug('PeerService.settle');
     
     payload.method = 'invoke';
-    payload.params.chaincodeID.name = cfg.chaincodeID.settle;
+    payload.params.chaincodeID.name = cfg.chaincodeID.report;
     payload.params.ctorMsg['function'] = 'settle';
     
     $log.debug('payload', payload);
@@ -54,8 +55,8 @@ function PeerService($log, $q, $http, cfg) {
     $log.debug('PeerService.queryBalance');
     
     payload.method = 'query';
-    payload.params.chaincodeID.name = cfg.chaincodeID.settle;
-    payload.params.ctorMsg['function'] = 'getbalance';
+    payload.params.chaincodeID.name = cfg.chaincodeID.report;
+    payload.params.ctorMsg['function'] = 'balance';
     payload.params.ctorMsg.args = ['' + m.id];
     
     $log.debug('payload', payload);
@@ -97,7 +98,7 @@ function PeerService($log, $q, $http, cfg) {
     $log.debug('PeerService.fund');
     
     payload.method = 'invoke';
-    payload.params.chaincodeID.name = cfg.chaincodeID.settle;
+    payload.params.chaincodeID.name = cfg.chaincodeID.report;
     payload.params.ctorMsg['function'] = 'change';
     payload.params.ctorMsg.args = ['' + m.id, /*resident.id,*/ '' + amt];
     
