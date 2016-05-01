@@ -40,17 +40,14 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 	//var err error
 	var key string
-	var val, amount, previous_val int
+	var amount, val, previous_val int
 	var exchange_rate float64
 
 	exchange_rate = 0.1;
 
-	var keys []string
-	var values []int
-
 	for i := 1; i < 10; i++ {
 		key = strconv.Itoa(i)
-		value, err := stub.GetState(key)
+		value, err := stub.GetState("kwh_" + key)
 		if err != nil {
 			continue
 		}
@@ -58,12 +55,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 			continue
 		}
 		val, _ = strconv.Atoi(string(value))
-		keys = append(keys, key)
-		values = append(values, val)
-
-	}
-	for index,name := range keys {
-		amount = int(float64(values[index])*-1*exchange_rate);
+		amount = int(float64(val)*-1*exchange_rate);
 		//f := "change"
 		//queryArgs := []string{name,string(amount)}
 		//_, err := stub.InvokeChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", f, queryArgs)
@@ -72,25 +64,24 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 		//	fmt.Printf(errStr)
 		//	return nil, errors.New(errStr)
 		//}
-		value, err := stub.GetState(name)
+		coins, err := stub.GetState(key)
 		if err != nil {
-			jsonResp := "{\"Error\":\"Failed to get state for " + name + "\"}"
+			jsonResp := "{\"Error\":\"Failed to get state for " + key + "\"}"
 			return nil, errors.New(jsonResp)
 		}
-		if(value == nil){
+		if(coins == nil){
 			previous_val = 0
 		}else{
-			previous_val, _ = strconv.Atoi(string(value));
+			previous_val, _ = strconv.Atoi(string(coins));
 		}
 
 
-		err = stub.PutState(name, []byte(strconv.Itoa(amount + previous_val)))
-		//err = stub.PutState(name, []byte(strconv.Itoa(40)))
+		err = stub.PutState(key, []byte(strconv.Itoa(amount + previous_val)))
 
 		if err != nil {
 			return nil, err
 		}
-		err = stub.PutState("kwh_" + name, []byte(strconv.Itoa(0)));
+		err = stub.PutState("kwh_" + key, []byte(strconv.Itoa(0)));
 		if err != nil {
 			return nil, errors.New("Meter cannot be updated")
 		}
