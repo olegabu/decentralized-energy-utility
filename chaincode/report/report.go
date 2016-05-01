@@ -38,7 +38,7 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 
 // Deletes an entity from state
 func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
-	var err error
+	//var err error
 	var key string
 	var val, amount, previous_val int
 	var exchange_rate float64
