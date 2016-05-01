@@ -45,6 +45,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 
 	exchange_rate = 0.1;
 
+	//TODO iteration by id is not an option. you should load keys from fabric
 	for i := 1; i < 10; i++ {
 		key = strconv.Itoa(i)
 		value, err := stub.GetState("kwh_" + key)
@@ -55,7 +56,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 			continue
 		}
 		val, _ = strconv.Atoi(string(value))
-		amount = float64(val)*-1*exchange_rate;
+		amount = float64(val)* -1 * exchange_rate;
 		//f := "change"
 		//queryArgs := []string{name,string(amount)}
 		//_, err := stub.InvokeChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", f, queryArgs)
@@ -76,7 +77,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 		}
 
 
-		err = stub.PutState(key, []byte(strconv.FormatFloat(amount + previous_val, 'f', -1, 64)))
+		err = stub.PutState(key, []byte(strconv.FormatFloat(amount + previous_val, 'f', 6, 64)))
 
 		if err != nil {
 			return nil, err
