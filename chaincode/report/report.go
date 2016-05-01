@@ -131,7 +131,7 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 		return t.settle(stub, args)
 	}
 
-	if function != "change" {
+	if function == "change" {
 		return t.change(stub, args)
 	}
 	if function != "report" {
