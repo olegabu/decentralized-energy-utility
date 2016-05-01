@@ -59,6 +59,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 		amount = float64(val)* -1 * exchange_rate;
 		//f := "change"
 		//queryArgs := []string{name,string(amount)}
+		// // InvokeChaincode doesnt work. Submitted issues to fabric.
 		//_, err := stub.InvokeChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", f, queryArgs)
 		//if err != nil {
 		//	errStr := fmt.Sprintf("Failed to query chaincode. Got error: %s", err.Error())

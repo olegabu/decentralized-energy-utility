@@ -1,0 +1,18 @@
+{
+  "jsonrpc": "2.0",
+  "method": "query",
+  "params": {
+    "type": 1,
+    "chaincodeID": {
+      "name": "f1b57978004d16a8febe4a47042bd4279452fbc1aea069b1ff4604087b6dc3922ccd48df1a6879540d80240f35e47192bd8450aa50fdecbd922fe8d2762d4674"
+    },
+    "ctorMsg": {
+      "function": "reported_kwh",
+      "args": [
+        "1"
+      ]
+    },
+    "secureContext": "user_type1_f0d8a85799"
+  },
+  "id": 0
+}
