@@ -76,12 +76,14 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 		if err != nil {
 			jsonResp := "{\"Error\":\"Failed to get state for " + name + "\"}"
 			return nil, errors.New(jsonResp)
+		}if(previous_val == nil){
+			previous_val = 1
 		}
 
 		previous_val, _ = strconv.Atoi(string(value));
 
 		err = stub.PutState(name, []byte(strconv.Itoa(amount + previous_val)))
-		err = stub.PutState(name, []byte(strconv.Itoa(40)))
+		//err = stub.PutState(name, []byte(strconv.Itoa(40)))
 
 		if err != nil {
 			return nil, err
