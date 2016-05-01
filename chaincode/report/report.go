@@ -23,7 +23,11 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 		if len(name) == 0{
 			continue
 		}
-		err = stub.PutState(name, []byte(strconv.Itoa(0)));
+		err = stub.PutState( "kwh_" + name, []byte(strconv.Itoa(0)));
+		if err != nil {
+			return nil, errors.New("Meter cannot be created")
+		}
+		err = stub.PutState( name, []byte(strconv.Itoa(0)));
 		if err != nil {
 			return nil, errors.New("Meter cannot be created")
 		}
@@ -32,8 +36,76 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 	return nil, nil
 }
 
-// Transaction makes payment of X units from A to B
+// Deletes an entity from state
+func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
+	//var err error
+	var key string
+	var val, amount, previous_val int
+	var exchange_rate float64
+
+	exchange_rate = 0.1;
+
+	var keys []string
+	var values []int
+
+	for i := 1; i < 10; i++ {
+		key = strconv.Itoa(i)
+		value, err := stub.GetState(key)
+		if err != nil {
+			continue
+		}
+		if value == nil {
+			continue
+		}
+		val, _ = strconv.Atoi(string(value))
+		keys = append(keys, key)
+		values = append(values, val)
+
+	}
+	for index,name := range keys {
+		amount = int(float64(values[index])*-1*exchange_rate);
+		//f := "change"
+		//queryArgs := []string{name,string(amount)}
+		//_, err := stub.InvokeChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", f, queryArgs)
+		//if err != nil {
+		//	errStr := fmt.Sprintf("Failed to query chaincode. Got error: %s", err.Error())
+		//	fmt.Printf(errStr)
+		//	return nil, errors.New(errStr)
+		//}
+		value, err := stub.GetState(name)
+		if err != nil {
+			jsonResp := "{\"Error\":\"Failed to get state for " + name + "\"}"
+			return nil, errors.New(jsonResp)
+		}
+		if(value == nil){
+			previous_val = 0
+		}else{
+			previous_val, _ = strconv.Atoi(string(value));
+		}
+
+
+		err = stub.PutState(name, []byte(strconv.Itoa(amount + previous_val)))
+		//err = stub.PutState(name, []byte(strconv.Itoa(40)))
+
+		if err != nil {
+			return nil, err
+		}
+		err = stub.PutState("kwh_" + name, []byte(strconv.Itoa(0)));
+		if err != nil {
+			return nil, errors.New("Meter cannot be updated")
+		}
+	}
+
+
+	return nil, nil
+}
+
 func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
+
+	if function == "settle" {
+		return t.settle(stub, args)
+	}
+
 	if function != "report" {
 		return nil, errors.New("Unimplemented '" + function + "' invoked")
 	}
@@ -49,7 +121,8 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 	name = args[0]
 	val, _ = strconv.Atoi(string(args[1]))
 
-	err = stub.PutState(name, []byte(strconv.Itoa(val)))
+	err = stub.PutState("kwh_" + name, []byte(strconv.Itoa(val)))
+
 	if err != nil {
 		return nil, err
 	}
@@ -60,9 +133,41 @@ func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 
 // Query callback representing the query of a chaincode
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
-	if function != "query" {
-		return nil, errors.New("Invalid query function name. Expecting \"query\"")
+
+	if function == "balance" {
+		return t.balance(stub, args)
 	}
+
+	if function != "reported_kwh" {
+		return nil, errors.New("Invalid query function name. Expecting \"querybalance\"")
+	}
+	var name string // Entities
+	var err error
+
+	if len(args) != 1 {
+		return nil, errors.New("Incorrect number of arguments. Expecting name of the Meter to query")
+	}
+
+	name = args[0]
+
+	// Get the state from the ledger
+	value, err := stub.GetState("kwh_" + name)
+	if err != nil {
+		jsonResp := "{\"Error\":\"Failed to get state for " + name + "\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	if value == nil {
+		jsonResp := "{\"Error\":\"Nil amount for Meter" + name + "\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	jsonResp := "{\"Name\":\"" + name + "\",\"Amount\":\"" + string(value) + "\"}"
+	fmt.Printf("Query Response:%s\n", jsonResp)
+	return value, nil
+}
+
+func (t *SimpleChaincode) balance(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 	var name string // Entities
 	var err error
 
@@ -80,7 +185,7 @@ func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args 
 	}
 
 	if value == nil {
-		jsonResp := "{\"Error\":\"Nil amount for Meter" + name + "\"}"
+		jsonResp := "{\"Error\":\"Nil amount for Meter " + name + "\"}"
 		return nil, errors.New(jsonResp)
 	}
 
