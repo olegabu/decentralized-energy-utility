@@ -76,7 +76,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 		}
 
 
-		err = stub.PutState(key, []byte(strconv.FormatFloat(amount + previous_val, 'E', -1, 64)))
+		err = stub.PutState(key, []byte(strconv.FormatFloat(amount + previous_val, 'f', -1, 64)))
 
 		if err != nil {
 			return nil, err
