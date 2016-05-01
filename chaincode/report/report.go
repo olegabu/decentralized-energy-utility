@@ -92,12 +92,48 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 	return nil, nil
 }
 
+
+func (t *SimpleChaincode) change(stub *shim.ChaincodeStub,  args []string) ([]byte, error) {
+
+	var name string
+	var val, previous_val float64
+	var err error
+
+	if len(args) != 2 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 2")
+	}
+
+
+	name = args[0]
+	// Get the state from the ledger
+	value, err := stub.GetState(name)
+	if err != nil {
+		jsonResp := "{\"Error\":\"Failed to get state for " + name + "\"}"
+		return nil, errors.New(jsonResp)
+	}
+
+	previous_val, _ = strconv.ParseFloat(string(value), 64);
+	val, _ = strconv.ParseFloat(string(args[1]), 64);
+
+	err = stub.PutState(name, []byte(strconv.FormatFloat(val + previous_val, 'f', 6, 64)))
+
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+
 func (t *SimpleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 
 	if function == "settle" {
 		return t.settle(stub, args)
 	}
 
+	if function != "change" {
+		return t.change(stub, args)
+	}
 	if function != "report" {
 		return nil, errors.New("Unimplemented '" + function + "' invoked")
 	}
