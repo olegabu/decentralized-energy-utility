@@ -40,8 +40,8 @@ func (t *SimpleChaincode) Init(stub *shim.ChaincodeStub, function string, args [
 func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 	//var err error
 	var key string
-	var amount, val, previous_val int
-	var exchange_rate float64
+	var val int
+	var exchange_rate, previous_val, amount float64
 
 	exchange_rate = 0.1;
 
@@ -55,7 +55,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 			continue
 		}
 		val, _ = strconv.Atoi(string(value))
-		amount = int(float64(val)*-1*exchange_rate);
+		amount = float64(val)*-1*exchange_rate;
 		//f := "change"
 		//queryArgs := []string{name,string(amount)}
 		//_, err := stub.InvokeChaincode("2780b7463c57f343a9e107854c4b53150018cdd8fd74ca970c028de6bfa707f6e9f6cf2b20f0af4fdd04d2167651eb29c7bfabf19e6a93ae2aff65f55202d0e6", f, queryArgs)
@@ -72,11 +72,11 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 		if(coins == nil){
 			previous_val = 0
 		}else{
-			previous_val, _ = strconv.Atoi(string(coins));
+			previous_val, _ = strconv.ParseFloat(string(coins), 64);
 		}
 
 
-		err = stub.PutState(key, []byte(strconv.Itoa(amount + previous_val)))
+		err = stub.PutState(key, []byte(strconv.FormatFloat(amount + previous_val, 'E', -1, 64)))
 
 		if err != nil {
 			return nil, err
