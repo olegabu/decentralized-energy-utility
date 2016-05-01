@@ -68,7 +68,7 @@ func (t *SimpleChaincode) settle(stub *shim.ChaincodeStub, args []string) ([]byt
 		//}
 		coins, err := stub.GetState(key)
 		if err != nil {
-			jsonResp := "{\"Error\":\"Failed to get state for " + key + "\"}"
+			jsonResp := "{\"Error\":\"Failed to get state for " + string(key) + "\"}"
 			return nil, errors.New(jsonResp)
 		}
 		if(coins == nil){
