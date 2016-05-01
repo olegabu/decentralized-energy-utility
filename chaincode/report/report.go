@@ -111,8 +111,12 @@ func (t *SimpleChaincode) change(stub *shim.ChaincodeStub,  args []string) ([]by
 		jsonResp := "{\"Error\":\"Failed to get state for " + name + "\"}"
 		return nil, errors.New(jsonResp)
 	}
+	if value == nil{
+		previous_val = 0;
+	}else{
+		previous_val, _ = strconv.ParseFloat(string(value), 64);
+	}
 
-	previous_val, _ = strconv.ParseFloat(string(value), 64);
 	val, _ = strconv.ParseFloat(string(args[1]), 64);
 
 	err = stub.PutState(name, []byte(strconv.FormatFloat(val + previous_val, 'f', 6, 64)))

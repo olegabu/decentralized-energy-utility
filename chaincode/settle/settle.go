@@ -70,8 +70,8 @@ func (t *SettleChaincode) Invoke(stub *shim.ChaincodeStub, function string, args
 
 // Query callback representing the query of a chaincode
 func (t *SettleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
-	if function != "getbalance" {
-		return nil, errors.New("Invalid query function name. Expecting \"query\"")
+	if function != "balance" {
+		return nil, errors.New("Invalid query function name. Expecting \"balance\"")
 	}
 	var name string // Entities
 	var err error
