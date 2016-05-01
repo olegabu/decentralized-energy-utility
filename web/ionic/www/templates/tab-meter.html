@@ -1,0 +1,20 @@
+<ion-view view-title="My Meters">
+  <ion-content>
+    <ion-refresher on-refresh="refresh()"></ion-refresher>
+    <ion-list>
+      <ion-item class="item-remove-animate item-icon-left item-icon-right" ng-repeat="m in meters" type="item-text-wrap" href="#/tab/meter/{{m.id}}">
+        <i class="icon" ng-class="{'ion-android-sunny': !m.consumer, 
+        'ion-ios-lightbulb-outline': m.consumer && m.connected, 
+        'ion-close': m.consumer && !m.connected}"></i>
+        <h2>{{m.name}}</h2>
+        <p>Meter {{m.id}}</p>
+        <p>{{m.balance}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(m)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

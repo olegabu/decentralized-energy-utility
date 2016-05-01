@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Decentralized Energy Utility</title>
+
+    <!-- Page styles -->
+    
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+    
+    <!-- build:css styles/app.min.css -->
+    <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"> -->
+<!--     <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.min.css"> -->
+    
+    <link rel="stylesheet" href="styles/app.css">
+    <!-- endbuild -->
+    
+  </head>
+  
+  <body style="padding-top: 40px;">
+  
+    <div ui-view><div class="loading"><i class="fa fa-spinner fa-spin"></i></div></div>
+
+    <!--  cdn with fallback -->
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="bower_components/jquery/dist/jquery.min.js"><\/script>')</script>
+    
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>(typeof $.fn.popover == 'function') || document.write('<script src="bower_components/bootstrap/dist/js/bootstrap.js"><\/script>')</script>
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+    <script>window._ || document.write('<script src="bower_components/lodash/lodash.js"><\/script>')</script>
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+    <script>window.angular || document.write('<script src="bower_components/angular/angular.min.js"><\/script>')</script>
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+    <script>window.angular || document.write('<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"><\/script>')</script>
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+    <script>window.angular || document.write('<script src="bower_components/angular-ui-bootstrap/ui-bootstrap-tpls.min.js"><\/script>')</script>
+    
+    <!-- build:vendor scripts/vendor.min.js -->
+    <script src="bower_components/chance/chance.js"></script>
+    <!-- endbuild -->
+    
+    <!-- build:js scripts/app.min.js -->
+    <script src="scripts/config.js"></script>
+    <script src="scripts/demo-controller.js"></script>
+    <script src="scripts/peer-service.js"></script>
+    <script src="scripts/app.js"></script>
+    <!-- endbuild -->
+    
+  </body>
+</html>

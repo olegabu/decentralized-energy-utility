@@ -1,0 +1,80 @@
+/*
+ * 
+ */
+ 
+.loading {  
+  text-align: center;
+  font-size: 2em;
+}
+
+/* fixes content shifting left on modal open https://github.com/twbs/bootstrap/commit/3f87bf46e463b113760a2e45158a684825bf9d50 */ 
+body.modal-open,
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom {
+  margin-right: 16px;
+}
+
+.panel-default .list-group-item.active
+{
+  color: #000;
+  background-color: #DDD;
+  border-color: #DDD;
+}
+
+.inline-icon-link {
+  cursor: pointer; 
+  margin-right: 1em;
+}
+ 
+.icon-inline {
+  font-size:x-large;
+  vertical-align: middle;
+  margin-right: .3em;
+  margin-left: .3em;
+}
+
+.toptext {color: #333}
+ 
+.row-padded-bottom, .row-border-bottom, .row-head, .row-inner-head {
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+
+.row-border-bottom, .row-head, .row-inner-head {
+  border-bottom: /* thin solid #ddd */inherit;
+}
+
+.row-padded-top, .row-border-top {
+  padding-top: 1em;
+  margin-top: 1em;
+}
+
+.row-border-top {
+  border-top: thin solid #ddd;
+}
+
+.row-head, .row-inner-head {
+  font-weight: bold;
+}
+
+.row-inner-head {
+  padding-top: 1em;
+}
+
+p.description {
+  padding-top: 1em;
+  font-size: smaller;
+}
+
+span.icon-pointer, span.icon-two, span.icon-three {
+  cursor: pointer; 
+  text-align: center;
+}
+
+span.icon-three {
+  width: 30%;
+}
+
+span.icon-two {
+  width: 50%;
+}

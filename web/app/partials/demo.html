@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <h1>Decentralized Energy Utility</h1>
+    </div><!-- /column -->
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading"><i class="fa fa-clock-o"></i> Time Of Day</div>
+        <div class="panel-body" ng-click="ctl.tick()" ng-dblclick="ctl.clock()">
+        <h1>{{ctl.now | date:'shortTime'}}</h1>
+        </div>
+      </div>
+    </div><!-- /column -->
+  </div><!-- /row -->
+  <div class="row">
+    <div class="col-md-6" ng-repeat="m in ctl.meters track by m.id">
+      <div class="panel panel-default">
+        <div class="panel-heading"><i class="fa fa-tachometer"></i> {{m.name}}</div>
+        <div class="panel-body">
+<!--           <p>Meter {{m.id}}</p> -->
+          <p ng-hide="m.consumer"><i class="fa fa-sun-o"></i> generating {{m.power | number}} kWh</p>
+          <p ng-show="m.consumer && m.connected"><i class="fa fa-lightbulb-o"></i> burning {{m.load | number}} kWh</p>
+          <p ng-show="m.consumer && !m.connected"><i class="fa fa-close"></i> disconnected</p>
+<!--           <p ng-show="m.consumer"><i class="fa" ng-class="{'fa-toggle-off': !m.connected, 'fa-toggle-on': m.connected}"></i></p> -->
+          <p><i class="fa fa-btc"></i> balance {{m.balance | number}} k</p>
+        </div>
+      </div>
+    </div><!-- /column -->
+  </div><!-- /row -->
+</div>

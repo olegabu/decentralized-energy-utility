@@ -1,0 +1,14 @@
+<ion-view view-title="{{meter.name}}">
+  <ion-content class="padding">
+    <p>Meter {{meter.id}}</p>
+    <h2>{{meter.name}}</h2>
+		<h2>balance {{meter.balance}} k</h2>
+		
+		<button class="button button-block button-positive"
+			ng-click="transfer(10)">Fund 10 k</button>
+		
+		<button class="button button-block button-positive"
+			ng-click="transfer(-10)">Withdraw 10 k</button>
+		
+  </ion-content>
+</ion-view>

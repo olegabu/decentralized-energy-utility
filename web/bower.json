@@ -1,0 +1,26 @@
+{
+  "name": "decentralized-energy-utility",
+  "version": "0.0.0",
+  "authors": [
+    "Oleg Abdrashitov"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "bootstrap": "~3.3.5",
+    "angular-ui": "~0.4.0",
+    "angular-ui-bootstrap": "~0.14.3",
+    "angular-ui-router": "~0.2.15",
+    "chance": "~0.7.6",
+    "lodash": "~3.10.1",
+    "components-font-awesome": "~4.4.0"
+  },
+  "devDependencies": {}
+}
