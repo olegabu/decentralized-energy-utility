@@ -1,12 +1,12 @@
 angular.module('config', [])
 .constant('cfg', 
 {
-  endpoint: 'https://aee1e8b6-52b9-4d2d-b0a1-e81bfad3157a_vp1-api.blockchain.ibm.com:443/chaincode',
-  secureContext: 'user_type1_f0d8a85799',
+  endpoint: 'https://4d886127-6d99-41a8-988a-c31ce4ae14dc_vp1-api.blockchain.ibm.com:443/chaincode',
+  secureContext: 'user_type1_6d0e6eead0',
   
   chaincodeID: {
-      report: 'd6d8d6efa0f641b4ff741bb51b32e9af4406c5beabfe5ad93037ebb40a30be36e317a529b134ca43eae69362418dd8628b805430bea1edba1e9a97b2739aa29f',
-      settle: 'd6d8d6efa0f641b4ff741bb51b32e9af4406c5beabfe5ad93037ebb40a30be36e317a529b134ca43eae69362418dd8628b805430bea1edba1e9a97b2739aa29f'   
+      report: 'ba3845d87fca8f1ec5ab1d077cb38907780c79260420fd94c288d6bddb710114c44969b9d560d365e38b62d379681e2acaa5b88536ebd22d6ed56c0605736349',
+      settle: 'ba3845d87fca8f1ec5ab1d077cb38907780c79260420fd94c288d6bddb710114c44969b9d560d365e38b62d379681e2acaa5b88536ebd22d6ed56c0605736349'   
   },
 
   meters: [{
